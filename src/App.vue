@@ -13,6 +13,8 @@
 </script>
 
 <style lang="scss">
+  @import url("./fonts/stylesheet.css");
+
   body {
     box-sizing: border-box;
     margin: 0;
@@ -22,7 +24,7 @@
   .container {
     margin: 0 auto;
 
-    width: 1200px;
+    max-width: 1200px;
   }
 </style>
 
