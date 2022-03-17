@@ -54,50 +54,56 @@ export default {
     }
   },
   methods: {
-    async getProductsByCategory(category) {
-      let response = await fetch("http://localhost:7777/get-items-by-category",{
-        mode: "cors",
-        method: "POST",
-        headers: {
-          "Accept":"*/*",
-          "Content-type":"application/json"
-        },
-        body: JSON.stringify({category_name:category,})
-      })
-
-      this.products = await response.json()
-      return
+    async updateProductsByName (category) {
+      await this.$store.dispatch('getProductsByCategory', {categoryName: category, products: []})
+      this.products = this.$store.getters.getAllProducts
     },
+    deleteProductsFromContainer(category) {
+      this.$store.commit('DELETE_PRODUCT_FROM_CONTAINER', category)
+      this.products = this.$store.getters.getAllProducts
+    }
   },
     watch: {
-      sushiCategory(newValue) {
+      async sushiCategory(newValue) {
         if (newValue === true) {
-          this.getProductsByCategory('sushi')
+          this.updateProductsByName('sushi')
+        } else {
+          this.deleteProductsFromContainer('sushi')
         }
       },
       burgerCategory(newValue) {
         if (newValue === true) {
-          this.getProductsByCategory('burger')
+          this.updateProductsByName('burger')
+        } else {
+          this.deleteProductsFromContainer('burger')
         }
       },
       pizzaCategory(newValue) {
         if (newValue === true) {
-          this.getProductsByCategory('pizza')
+          this.updateProductsByName('pizza')
+        } else {
+          this.deleteProductsFromContainer('pizza')
         }
       },
       dessertsCategory(newValue) {
         if (newValue === true) {
-          this.getProductsByCategory('dessert')
+          this.updateProductsByName('dessert')
+        } else {
+          this.deleteProductsFromContainer('dessert')
         }
       },
       frozenMealCategory(newValue) {
         if (newValue === true) {
-          this.getProductsByCategory('frozen_meal')
+          this.updateProductsByName('frozen_meal')
+        } else {
+          this.deleteProductsFromContainer('frozen_meal')
         }
       },
       pastryCategory(newValue) {
         if (newValue === true) {
-          this.getProductsByCategory('pastry')
+          this.updateProductsByName('pastry')
+        } else {
+          this.deleteProductsFromContainer('pastry')
         }
       }
     }
