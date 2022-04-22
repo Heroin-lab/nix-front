@@ -39,7 +39,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import url("../fonts/stylesheet.css");
 
   .header {
     background-color: #ffffff;
@@ -52,6 +51,8 @@ export default {
       margin: 10px 0 10px 0;
     }
   }
+
+
 
   .logo {
     width: 70px;
@@ -74,22 +75,22 @@ export default {
 
 
         &:not(:last-child) {
-          margin-right: 40px;
+          margin-right: 20px;
         }
 
         &:hover {
           padding-bottom: 11px;
-          text-color: #ff004e;
+          color: #ff004e;
           border-bottom: 4px solid #ff004e;
         }
 
         & a {
           text-decoration: none;
-          color: black;
+          color: #000418;
           font-family: Gilroy, 'serif';
           font-weight: 500;
           line-height: 1.5;
-          font-size: 36px;
+          font-size: 32px;
         }
       }
     }
