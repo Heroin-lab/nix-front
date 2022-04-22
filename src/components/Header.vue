@@ -86,7 +86,7 @@ export default {
 
         & a {
           text-decoration: none;
-          color: black;
+          color: #000821;
           font-family: Gilroy, 'serif';
           font-weight: 500;
           line-height: 1.5;

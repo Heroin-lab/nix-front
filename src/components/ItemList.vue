@@ -18,6 +18,7 @@
         </div>
 
         <div class="products" >
+          <ItemEmptyList id="empty-item"/>
           <div class="product" v-for="product in products" :key="product">
             <img class="product__image" :src="product.Img" alt="#">
             <div class="product__all-info">
@@ -38,10 +39,13 @@
 </template>
 
 <script>
-
+import ItemEmptyList from "@/components/ItemEmptyList";
 
 export default {
   name: "ProductItem",
+  components: {
+    ItemEmptyList,
+  },
   data() {
     return {
       products: [],
@@ -64,13 +68,23 @@ export default {
     }
   },
     watch: {
-      async sushiCategory(newValue) {
+      products() {
+        let emptyBlock =  document.getElementById("empty-item")
+        if (this.products.length == 0) {
+          emptyBlock.style.display = "block"
+        } else {
+          emptyBlock.style.display = "none"
+        }
+      },
+
+      sushiCategory(newValue) {
         if (newValue === true) {
           this.updateProductsByName('sushi')
         } else {
           this.deleteProductsFromContainer('sushi')
         }
       },
+
       burgerCategory(newValue) {
         if (newValue === true) {
           this.updateProductsByName('burger')
@@ -78,6 +92,7 @@ export default {
           this.deleteProductsFromContainer('burger')
         }
       },
+
       pizzaCategory(newValue) {
         if (newValue === true) {
           this.updateProductsByName('pizza')
@@ -85,6 +100,7 @@ export default {
           this.deleteProductsFromContainer('pizza')
         }
       },
+
       dessertsCategory(newValue) {
         if (newValue === true) {
           this.updateProductsByName('dessert')
@@ -92,6 +108,7 @@ export default {
           this.deleteProductsFromContainer('dessert')
         }
       },
+
       frozenMealCategory(newValue) {
         if (newValue === true) {
           this.updateProductsByName('frozen_meal')
@@ -99,6 +116,7 @@ export default {
           this.deleteProductsFromContainer('frozen_meal')
         }
       },
+
       pastryCategory(newValue) {
         if (newValue === true) {
           this.updateProductsByName('pastry')
