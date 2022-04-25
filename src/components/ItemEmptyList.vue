@@ -19,7 +19,7 @@ export default {
 <style lang="scss" scoped>
 
   .empty-item-block {
-    margin: 0 20px 0 20px;
+    margin: 0 0 0 20px;
     padding-top: 141px;
     min-height: 300px;
     text-align: center;
@@ -39,8 +39,8 @@ export default {
 
     &__choose-msg {
       font-size: 3em;
-      opacity: 95%;
-      background-color: #ff004e;
+      color: rgba(0, 4, 24, 0.95);
+      background-color: #00bcff;
     }
 }
 </style>

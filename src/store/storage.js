@@ -14,12 +14,41 @@ const loadProducts = async (category) => {
     return await response.json()
 }
 
+const loginUser = async (email, password) => {
+    let response = await fetch("http://localhost:7777/login", {
+        mode: "cors",
+        method: "POST",
+        headers: {
+            "Accept":"*/*",
+            "Content-type":"application/json"
+        },
+        body: JSON.stringify({email: email, password: password})
+    })
+
+    return await response
+}
+
+const registerUser = async (email, password) => {
+    let response = await fetch("http://localhost:7777/register", {
+        mode: "cors",
+        method: "POST",
+        headers: {
+            "Accept":"*/*",
+            "Content-type":"application/json"
+        },
+        body: JSON.stringify({email: email, password: password})
+    })
+
+    return await response.json()
+}
+
 const store = createStore({
     state: {
         categories: [],
         allProductsObjs: {},
         productContainer: [],
-        preparedProductArr: []
+        preparedProductArr: [],
+        userAuthStatus: false,
     },
     getters: {
         getAllProducts (state) {
@@ -29,11 +58,20 @@ const store = createStore({
                 preparedArray = [...preparedArray, ...openProductContainer[i]]
             }
 
-
             return preparedArray
+        },
+
+        getUserAuthStatus (state) {
+            return JSON.parse(JSON.stringify(state.userAuthStatus))
         }
     },
     mutations: {
+        CHANGE_USER_AUTH_STATUS (state, payload) {
+            if (payload.resStatus === true) {
+                state.userAuthStatus = true
+            }
+        },
+
         ADD_NEW_PRODUCT_LIST (state, payload) {
             state.allProductsObjs = Object.assign(state.allProductsObjs, {[payload.categoryName]:payload.newProducts})
             state.productContainer.push(payload.newProducts)
@@ -60,6 +98,7 @@ const store = createStore({
     },
     actions: {
         async getProductsByCategory({ commit, state }, payload) {
+            console.log(payload)
             if (payload.categoryName in state.allProductsObjs) {
                 commit('ADD_EXIST_PRODUCT_LIST', payload.categoryName)
                 return
@@ -71,6 +110,29 @@ const store = createStore({
            } catch (error) {
                console.log(error)
            }
+        },
+
+        async doLogin ({ commit }, payload) {
+            try {
+                const loginResp = await loginUser(payload.userEmail, payload.userPassword)
+                if (loginResp.status === 200) {
+                    let readyJson = await loginResp.json()
+                    localStorage.setItem("access_token", readyJson.access_token)
+                    localStorage.setItem("refresh_token", readyJson.refresh_token)
+                    localStorage.setItem("user_login_status", true)
+                    await commit('CHANGE_USER_AUTH_STATUS', {resStatus: true})
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        },
+
+        async doRegister (commit, payload) {
+            try {
+                await registerUser(payload.userEmail, payload.userPassword)
+            } catch (error) {
+                console.log(error)
+            }
         },
     }
 })
