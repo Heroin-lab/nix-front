@@ -1,5 +1,7 @@
 <template>
   <header class="header">
+    <AuthPopUpWindow id="modal" @changeParentAuthStatus="changeParentAuthStatus"/>
+
     <div class="container">
       <div class="header__box">
         <router-link :to="{ path: `/` }">
@@ -16,9 +18,8 @@
               </router-link>
             </li>
             <li>
-              <router-link :to="{ path: `/auth`}">
-                <img class="navbar__user-icon" src="../assets/User_Icon.png" alt="#">
-              </router-link>
+              <img v-if="!parentAuthStatus" @click="showAuthPopUp" class="navbar__user-icon" src="../assets/User_Icon.png" alt="#">
+              <img v-if="parentAuthStatus" @click="logOutUser" class="navbar__log-out-icon" src="../assets/log-out.png" alt="#">
             </li>
           </ul>
         </nav>
@@ -28,11 +29,45 @@
 </template>
 
 <script>
+
+import AuthPopUpWindow from "@/components/AuthPopUpWindow";
+
 export default {
   name: "header",
+  props: ["statusUser"],
   data() {
     return {
+      parentAuthStatus: false
+    }
+  },
+  components: {
+    AuthPopUpWindow,
+  },
 
+  mounted() {
+    this.getAuthStatusFromLocalStorage()
+  },
+
+  methods: {
+    showAuthPopUp () {
+      document.getElementById("modal").style.display = "flex"
+    },
+
+    changeParentAuthStatus () {
+      this.parentAuthStatus = this.$store.getters.getUserAuthStatus
+    },
+
+    getAuthStatusFromLocalStorage () {
+      if (localStorage.getItem("user_login_status") == "true") {
+        this.parentAuthStatus = true
+      }
+    },
+
+    logOutUser () {
+      localStorage.removeItem("access_token")
+      localStorage.removeItem("refresh_token")
+      localStorage.removeItem("user_login_status")
+      this.parentAuthStatus = false
     }
   }
 }
@@ -95,9 +130,19 @@ export default {
       }
     }
 
-    & img {
+    &__basket {
       width: 45px;
       height: 45px;
+    }
+
+    &__user-icon {
+      width: 45px;
+      height: 45px;
+    }
+
+    &__log-out-icon {
+      height: 40px;
+      width: 40px;
     }
   }
 </style>

@@ -12,8 +12,7 @@
             <li><input type="checkbox" @change="pizzaCategory = !pizzaCategory">  Pizzas</li>
             <li><input type="checkbox" @change="dessertsCategory = !dessertsCategory">  Desserts</li>
             <li><input type="checkbox" @change="frozenMealCategory = !frozenMealCategory">  Frozen Meals</li>
-            <li>
-              <input type="checkbox" @change="pastryCategory = !pastryCategory">  Pastry</li>
+            <li><input type="checkbox" @change="pastryCategory = !pastryCategory">  Pastry</li>
           </ul>
         </div>
 
@@ -27,7 +26,7 @@
                 <p class="product__product-type">{{product.Prod_type_name}}</p>
               </span>
 
-              <p class="product__price">${{product.Price}}</p>
+              <p class="product__price">${{ product.Price }}</p>
             </div>
           </div>
         </div>
@@ -55,6 +54,7 @@ export default {
       dessertsCategory: false,
       frozenMealCategory: false,
       pastryCategory: false,
+      mouseOverStatus: false,
     }
   },
   methods: {
@@ -138,9 +138,13 @@ export default {
 
   .side-bar {
     display: flex;
+    position: sticky;
+    top: 10px;
+
     align-items: center;
     flex-direction: column;
     width: 300px;
+    height: 443px;
     border-radius: 7px;
     box-shadow: 2px 5px 10px rgb(143, 138, 138);
 
@@ -151,7 +155,8 @@ export default {
       width: 100%;
       text-align: center;
       border-radius: 7px 7px 0 0;
-      box-shadow: 0px 5px 10px rgb(143, 138, 138);
+      box-shadow: 0px 2px 5px rgb(143, 138, 138);
+      font-family: Gilroy;
     }
 
     &__list {
@@ -161,17 +166,26 @@ export default {
 
       & li {
         width: 300px;
-        border-bottom: 1px solid #7c7c7c;
+
         font-size: 21px;
         font-family: Gilroy;
         font-weight: 500;
         line-height: 3;
         letter-spacing: 1px;
 
+        &:last-child {
+          border-radius: 0 0 7px 7px;
+        }
+
+        &:not(:last-child) {
+          border-bottom: 1px solid #b0b0b0;
+        }
+
         &:hover {
-          transition-duration: 0.6s;
+          transition-duration: 0.5s;
           background-color: #ff004e;
           box-shadow: 0px 5px 10px rgb(143, 138, 138);
+          border-bottom: 1px solid #ff004e;
         }
       }
 
@@ -241,12 +255,21 @@ export default {
 
     &__price {
       display: inline-block;
+      min-height: 28px;
+      min-width: 25px;
       padding: 5px 10px 5px 10px;
       font-size: 25px;
       border-radius: 7px;
-      background-color: #ff004e;
+      background: #ff004e;
 
       cursor: pointer;
+
+      &:hover {
+        background: url("../assets/small-shopping-cart-icon.png") no-repeat;
+        background-position: center;
+        background-color: #ff004e;
+        font-size: 0px;
+      }
     }
   }
 
