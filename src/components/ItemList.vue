@@ -25,12 +25,10 @@
                 <h4 class="product__name">{{product.Product_name}}</h4>
                 <p class="product__product-type">{{product.Prod_type_name}}</p>
               </span>
-
               <p class="product__price">${{ product.Price }}</p>
             </div>
           </div>
         </div>
-
       </div>
     </div>
   </section>
@@ -147,6 +145,7 @@ export default {
     height: 443px;
     border-radius: 7px;
     box-shadow: 2px 5px 10px rgb(143, 138, 138);
+    mix-blend-mode: color-dodge;
 
     &__header {
       display: block;

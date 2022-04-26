@@ -1,17 +1,17 @@
 <template>
-    <Header/>
+    <VueHeader/>
     <Slider/>
 </template>
 
 <script>
 
-import Header from "@/components/Header";
+import VueHeader from "@/components/VueHeader";
 import Slider from "@/components/Slider";
 
 export default {
   name: "MainPage",
   components: {
-    Header,
+    VueHeader,
     Slider,
   }
 }

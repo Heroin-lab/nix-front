@@ -58,7 +58,7 @@ export default {
     },
 
     getAuthStatusFromLocalStorage () {
-      if (localStorage.getItem("user_login_status") == "true") {
+      if (localStorage.getItem("user_login_status") === "true") {
         this.parentAuthStatus = true
       }
     },
@@ -77,7 +77,7 @@ export default {
 
   .header {
     background-color: #ffffff;
-    box-shadow: 0px 5px 10px rgb(224, 221, 221);
+    box-shadow: 0 5px 10px rgb(224, 221, 221);
 
     &__box {
       display: flex;
