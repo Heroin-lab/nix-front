@@ -1,18 +1,18 @@
 <template>
-  <Header/>
+  <VueHeader/>
   <item-list/>
 </template>
 
 <script>
 
 import ItemList from "@/components/ItemList";
-import Header from "@/components/Header";
+import VueHeader from "@/components/VueHeader";
 
 export default {
   name: "ProductsPage",
   components: {
     ItemList,
-    Header
+    VueHeader
   }
 }
 </script>

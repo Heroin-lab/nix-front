@@ -1,46 +1,7 @@
 import { createStore } from 'vuex'
+import productFunctions from "@/store/productFunctions";
+import authFunctions from "@/store/authFunctions";
 
-const loadProducts = async (category) => {
-    let response = await fetch("http://localhost:7777/get-items-by-category",{
-        mode: "cors",
-        method: "POST",
-        headers: {
-            "Accept":"*/*",
-            "Content-type":"application/json"
-        },
-        body: JSON.stringify({category_name: category,})
-    })
-
-    return await response.json()
-}
-
-const loginUser = async (email, password) => {
-    let response = await fetch("http://localhost:7777/login", {
-        mode: "cors",
-        method: "POST",
-        headers: {
-            "Accept":"*/*",
-            "Content-type":"application/json"
-        },
-        body: JSON.stringify({email: email, password: password})
-    })
-
-    return await response
-}
-
-const registerUser = async (email, password) => {
-    let response = await fetch("http://localhost:7777/register", {
-        mode: "cors",
-        method: "POST",
-        headers: {
-            "Accept":"*/*",
-            "Content-type":"application/json"
-        },
-        body: JSON.stringify({email: email, password: password})
-    })
-
-    return await response.json()
-}
 
 const store = createStore({
     state: {
@@ -49,6 +10,7 @@ const store = createStore({
         productContainer: [],
         preparedProductArr: [],
         userAuthStatus: false,
+        cardSelectStatus: false,
     },
     getters: {
         getAllProducts (state) {
@@ -63,9 +25,21 @@ const store = createStore({
 
         getUserAuthStatus (state) {
             return JSON.parse(JSON.stringify(state.userAuthStatus))
+        },
+
+        getCardSelectStatus (state) {
+            return JSON.parse(JSON.stringify(state.cardSelectStatus))
         }
     },
     mutations: {
+        CHANGE_SELECT_CARD_STATUS (state) {
+          state.cardSelectStatus = !state.cardSelectStatus
+        },
+
+        CHANGE_SELECT_CARD_STATUS_TO_FALSE (state) {
+            state.cardSelectStatus = false
+        },
+
         CHANGE_USER_AUTH_STATUS (state, payload) {
             if (payload.resStatus === true) {
                 state.userAuthStatus = true
@@ -105,7 +79,7 @@ const store = createStore({
             }
 
            try {
-               const response = await loadProducts(payload.categoryName)
+               const response = await productFunctions.loadProducts(payload.categoryName)
                await commit('ADD_NEW_PRODUCT_LIST', {newProducts: response, categoryName: payload.categoryName})
            } catch (error) {
                console.log(error)
@@ -114,7 +88,7 @@ const store = createStore({
 
         async doLogin ({ commit }, payload) {
             try {
-                const loginResp = await loginUser(payload.userEmail, payload.userPassword)
+                const loginResp = await authFunctions.loginUser(payload.userEmail, payload.userPassword)
                 if (loginResp.status === 200) {
                     let readyJson = await loginResp.json()
                     localStorage.setItem("access_token", readyJson.access_token)
@@ -129,7 +103,7 @@ const store = createStore({
 
         async doRegister (commit, payload) {
             try {
-                await registerUser(payload.userEmail, payload.userPassword)
+                await authFunctions.registerUser(payload.userEmail, payload.userPassword)
             } catch (error) {
                 console.log(error)
             }

@@ -32,7 +32,7 @@ export default {
       const popup = document.querySelector('.auth-popup');
 
       document.onclick = function(e){
-        if ( e.target.className == 'auth-popup' || e.target.className == "auth-popup__cross") {
+        if ( e.target.className === 'auth-popup' || e.target.className === "auth-popup__cross") {
           popup.style.display = 'none';
         }
       };
@@ -48,7 +48,7 @@ export default {
       let hrefMsg = document.getElementById("hrefMsg")
 
 
-      if (mainButton.value == "Login") {
+      if (mainButton.value === "Login") {
         formHeader.innerText = "Registration"
         mainButton.innerText = "Sign Up"
         mainButton.value = "Sign Up"
@@ -172,6 +172,7 @@ export default {
     top: 0;
     position: absolute;
     background-color: rgba(0, 0, 0, 0.77);
+    z-index: 1000;
 
     &__cross {
       position: relative;

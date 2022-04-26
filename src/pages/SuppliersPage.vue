@@ -1,10 +1,20 @@
 <template>
- <div></div>
+  <VueHeader/>
+  <SuppliersTypeList/>
 </template>
 
 <script>
+
+import VueHeader from "@/components/VueHeader";
+import SuppliersTypeList from "@/components/SuppliersTypeList";
+
 export default {
-  name: "SuppliersPage"
+  name: "SuppliersPage",
+  components: {
+    VueHeader,
+    SuppliersTypeList
+  }
+
 }
 </script>
 
