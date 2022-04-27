@@ -10,6 +10,7 @@
 
         <nav class="navbar">
           <ul>
+            <li><router-link :to="{ path: `/`}">Home</router-link></li>
             <li><router-link :to="{ path: `/products`}">Products</router-link></li>
             <li><router-link :to="{ path: `/suppliers`}">Suppliers</router-link></li>
             <li>
@@ -86,8 +87,6 @@ export default {
       margin: 10px 0 10px 0;
     }
   }
-
-
 
   .logo {
     width: 70px;

@@ -129,6 +129,10 @@ export default {
 
 <style lang="scss" scoped>
 
+  .products-list {
+    min-height: calc(90vh - 44px);
+  }
+
   .flex-positioner {
     display: flex;
     justify-content: space-between;

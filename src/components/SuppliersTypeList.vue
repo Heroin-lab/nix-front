@@ -83,6 +83,7 @@ export default {
 
 <style lang="scss" scoped>
   .suppliers-type-list {
+    min-height: calc(90vh - 44px);
 
     &__modify-container {
       display: flex;
