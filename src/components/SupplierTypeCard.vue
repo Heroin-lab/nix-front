@@ -45,7 +45,7 @@ export default {
 <style lang="scss" scoped>
 
   .supplier-type-card {
-    margin: 0 0 20px 20px;
+    margin-top: 15px;
     background-color: white;
     border-radius: 7px;
     box-shadow: 2px 5px 10px rgb(143, 138, 138);
@@ -55,10 +55,6 @@ export default {
     &:hover {
       transition: 0.7s;
       transform: scale(1.01);
-    }
-
-    &:last-child {
-      margin-left: 0;
     }
 
     &__wrapper {
