@@ -1,6 +1,6 @@
 <template>
   <main class="suppliers-type-list">
-    <div class="container">
+    <div class="container suppliers-type-list__modify-container">
       <SupplierTypeCard @cardSelectAction="cardSelectAction"
                         v-if="isCardSelected"
                         :title="selectedCard.selectedTitle"
@@ -17,7 +17,6 @@
           />
         </li>
       </ul>
-
       <SupplierList v-if="isCardSelected"/>
     </div>
   </main>
@@ -84,15 +83,20 @@ export default {
 
 <style lang="scss" scoped>
   .suppliers-type-list {
-    margin-top: 10px;
+
+    &__modify-container {
+      display: flex;
+      justify-content: space-between;
+    }
 
     &__card-list {
+      width: 1200px;
       display: flex;
       justify-content: space-between;
       flex-direction: row;
       flex-wrap: wrap;
-      padding: 0;
       margin: 0;
+      padding: 0;
       list-style-type: none;
       font-family: Gilroy;
     }

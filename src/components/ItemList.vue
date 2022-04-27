@@ -171,6 +171,7 @@ export default {
         font-weight: 500;
         line-height: 3;
         letter-spacing: 1px;
+        cursor: default;
 
         &:last-child {
           border-radius: 0 0 7px 7px;
@@ -229,6 +230,7 @@ export default {
       max-height: 70px;
       width: 265px;
       justify-content: space-between;
+      cursor: default;
     }
 
     &__desc {

@@ -27,6 +27,7 @@ export default {
     background-color: white;
     border-radius: 7px;
     box-shadow: 2px 5px 10px rgb(143, 138, 138);
+    cursor: default;
 
     & h1, h4 {
       padding: 0 70px 0 70px;
