@@ -48,11 +48,11 @@ export default {
   .slider-hub {
     width: 1200px;
     height: 628px;
-    //border-radius: 21px;
     overflow: hidden;
     margin: 0 auto;
     margin-top: 20px;
     box-shadow: 0 2px 7px 0 rgba(0, 0, 0, .2);
+    min-height: calc(90vh - 44px);
   }
 
   .slides {
