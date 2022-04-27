@@ -39,6 +39,12 @@ export default {
    margin-top: 15px;
    box-shadow: 2px 5px 10px rgb(143, 138, 138);
    border-radius: 7px;
+   cursor: pointer;
+
+   &:hover {
+     transition: 0.7s;
+     transform: scale(1.02);
+   }
 
    &__wrapper {
      display: flex;

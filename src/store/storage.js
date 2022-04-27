@@ -1,6 +1,7 @@
 import { createStore } from 'vuex'
 import productFunctions from "@/store/productFunctions";
 import authFunctions from "@/store/authFunctions";
+import suppliersFunctions from "@/store/suppliersFunctions";
 
 
 const store = createStore({
@@ -11,6 +12,7 @@ const store = createStore({
         preparedProductArr: [],
         userAuthStatus: false,
         cardSelectStatus: false,
+        suppliersStoredInfo: []
     },
     getters: {
         getAllProducts (state) {
@@ -29,9 +31,22 @@ const store = createStore({
 
         getCardSelectStatus (state) {
             return JSON.parse(JSON.stringify(state.cardSelectStatus))
+        },
+
+        getSuppliersInfo (state) {
+            return JSON.parse(JSON.stringify(state.suppliersStoredInfo))
         }
     },
     mutations: {
+        ADD_NEW_SUPPLIERS_INFO (state, payload) {
+            state.suppliersStoredInfo = payload
+            console.log(payload)
+        },
+
+        DELETE_OLD_SUPPLIERS_INFO (state) {
+          state.suppliersStoredInfo = []
+        },
+
         CHANGE_SELECT_CARD_STATUS (state) {
           state.cardSelectStatus = !state.cardSelectStatus
         },
@@ -72,7 +87,6 @@ const store = createStore({
     },
     actions: {
         async getProductsByCategory({ commit, state }, payload) {
-            console.log(payload)
             if (payload.categoryName in state.allProductsObjs) {
                 commit('ADD_EXIST_PRODUCT_LIST', payload.categoryName)
                 return
@@ -108,6 +122,16 @@ const store = createStore({
                 console.log(error)
             }
         },
+
+        async getSuppliersByType ({commit}, payload) {
+            try {
+                let suppliersResponse = await suppliersFunctions.getSuppliers(payload.supplierType)
+                console.log('check')
+                commit("ADD_NEW_SUPPLIERS_INFO", suppliersResponse)
+            } catch (error) {
+                console.log(error)
+            }
+        }
     }
 })
 

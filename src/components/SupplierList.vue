@@ -19,8 +19,6 @@
 
 <script>
 
-
-
 import SupplierCard from "@/components/SupplierCard";
 
 export default {
@@ -29,29 +27,28 @@ export default {
 
   data () {
     return {
-      suppliersInfo: [
-        {
-          id: "1",
-          name: "Pizza Club",
-          image: "https://images.adsttc.com/media/images/5e4c/1025/6ee6/7e0b/9d00/0877/large_jpg/feature_-_Main_hall_1.jpg?1582043123",
-          opening: "9:00",
-          closing: "22:00"
-        },
-        {
-          id: "2",
-          name: "Roll Club",
-          image: "https://images.adsttc.com/media/images/5e4c/1025/6ee6/7e0b/9d00/0877/large_jpg/feature_-_Main_hall_1.jpg?1582043123",
-          opening: "9:00",
-          closing: "22:00"
-        },
-        {
-          id: "2",
-          name: "Roll Club",
-          image: "https://images.adsttc.com/media/images/5e4c/1025/6ee6/7e0b/9d00/0877/large_jpg/feature_-_Main_hall_1.jpg?1582043123",
-          opening: "9:00",
-          closing: "22:00"
-        }
-      ]
+      suppliersInfo: this.$store.getters.getSuppliersInfo
+    }
+  },
+
+  mounted() {
+    this.test()
+  },
+
+  methods: {
+    test () {
+      if (this.$store.getters.getSuppliersInfo.length < 1) {
+        let timerGetter = setInterval(() => {
+          console.log('f')
+          if (this.$store.getters.getSuppliersInfo.length >= 1) {
+            clearInterval(timerGetter)
+            console.log('d')
+            return this.suppliersInfo = this.$store.getters.getSuppliersInfo
+          }
+        }, 20)
+
+        setTimeout(() => clearInterval(timerGetter), 2000)
+      }
     }
   }
 }
