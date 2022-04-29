@@ -39,7 +39,6 @@ export default {
         this.$store.dispatch('getSuppliersByType', {supplierType: this.title})
       } else {
         this.$emit('cardSelectAction')
-
       }
 
       this.$store.commit('CHANGE_SELECT_CARD_STATUS')

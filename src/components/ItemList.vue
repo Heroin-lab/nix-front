@@ -25,7 +25,7 @@
                 <h4 class="product__name">{{product.Product_name}}</h4>
                 <p class="product__product-type">{{product.Prod_type_name}}</p>
               </span>
-              <p class="product__price">${{ product.Price }}</p>
+              <p @click="showId" class="product__price">${{ product.Price }}</p>
             </div>
           </div>
         </div>
@@ -60,9 +60,14 @@ export default {
       await this.$store.dispatch('getProductsByCategory', {categoryName: category, products: []})
       this.products = this.$store.getters.getAllProducts
     },
+
     deleteProductsFromContainer(category) {
       this.$store.commit('DELETE_PRODUCT_FROM_CONTAINER', category)
       this.products = this.$store.getters.getAllProducts
+    },
+
+    showId () {
+      console.log(this.products.Id)
     }
   },
     watch: {
@@ -121,8 +126,9 @@ export default {
         } else {
           this.deleteProductsFromContainer('pastry')
         }
-      }
+      },
     }
+
 
 }
 </script>

@@ -32,17 +32,15 @@ export default {
   },
 
   mounted() {
-    this.test()
+    this.uploadCards()
   },
 
   methods: {
-    test () {
+    uploadCards () {
       if (this.$store.getters.getSuppliersInfo.length < 1) {
         let timerGetter = setInterval(() => {
-          console.log('f')
           if (this.$store.getters.getSuppliersInfo.length >= 1) {
             clearInterval(timerGetter)
-            console.log('d')
             return this.suppliersInfo = this.$store.getters.getSuppliersInfo
           }
         }, 20)

@@ -1,6 +1,7 @@
 <template>
   <header class="header">
     <AuthPopUpWindow id="modal" @changeParentAuthStatus="changeParentAuthStatus"/>
+    <UserBasketPopUp v-if="isBasketPopUpVisible" @closeUserBasketPopup="closeUserBasketPopup"/>
 
     <div class="container">
       <div class="header__box">
@@ -14,9 +15,7 @@
             <li><router-link :to="{ path: `/products`}">Products</router-link></li>
             <li><router-link :to="{ path: `/suppliers`}">Suppliers</router-link></li>
             <li>
-              <router-link :to="{ path: `/basket`}">
-                <img class="navbar__basket" src="../assets/shopping-cart-icon.png" alt="#">
-              </router-link>
+              <img @click="isBasketPopUpVisible = true" class="navbar__basket" src="../assets/shopping-cart-icon.png" alt="#">
             </li>
             <li>
               <img v-if="!parentAuthStatus" @click="showAuthPopUp" class="navbar__user-icon" src="../assets/User_Icon.png" alt="#">
@@ -32,16 +31,19 @@
 <script>
 
 import AuthPopUpWindow from "@/components/AuthPopUpWindow";
+import UserBasketPopUp from "@/components/UserBasketPopUp";
 
 export default {
   name: "header",
   props: ["statusUser"],
   data() {
     return {
-      parentAuthStatus: false
+      parentAuthStatus: false,
+      isBasketPopUpVisible: false,
     }
   },
   components: {
+    UserBasketPopUp,
     AuthPopUpWindow,
   },
 
@@ -50,6 +52,10 @@ export default {
   },
 
   methods: {
+    closeUserBasketPopup () {
+      this.isBasketPopUpVisible = false
+    },
+
     showAuthPopUp () {
       document.getElementById("modal").style.display = "flex"
     },
@@ -65,11 +71,12 @@ export default {
     },
 
     logOutUser () {
+      localStorage.removeItem("user_id")
       localStorage.removeItem("access_token")
       localStorage.removeItem("refresh_token")
       localStorage.removeItem("user_login_status")
       this.parentAuthStatus = false
-    }
+    },
   }
 }
 </script>
