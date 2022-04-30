@@ -15,7 +15,8 @@
 
         <nav class="navbar">
           <ul>
-            <div class="navbar__basket-counter">{{ basketCounter }}</div>
+
+            <div v-if="basketCounter !== 0" class="navbar__basket-counter">{{ basketCounter }}</div>
             <li><router-link :to="{ path: `/`}">Home</router-link></li>
             <li><router-link :to="{ path: `/products`}">Products</router-link></li>
             <li><router-link :to="{ path: `/suppliers`}">Suppliers</router-link></li>
@@ -23,8 +24,8 @@
               <img @click="isBasketPopUpVisible = true" class="navbar__basket" src="../assets/shopping-cart-icon.png" alt="#">
             </li>
             <li>
-              <img v-if="!parentAuthStatus" @click="showAuthPopUp" class="navbar__user-icon" src="../assets/User_Icon.png" alt="#">
-              <img v-if="parentAuthStatus" @click="logOutUser" class="navbar__log-out-icon" src="../assets/log-out.png" alt="#">
+              <img v-if="!parentAuthStatus" @click="showAuthPopUp" class="navbar__log-out-icon" src="../assets/loggin_icon.png" alt="#">
+              <img v-if="parentAuthStatus" @click="logOutUser" class="navbar__user-icon" src="../assets/User_Icon.png" alt="#">
             </li>
           </ul>
         </nav>
@@ -43,6 +44,10 @@ export default {
   // props: ["statusUser"],
 
   props: ["basketCounterProp"],
+  components: {
+    UserBasketPopUp,
+    AuthPopUpWindow,
+  },
 
   data() {
     return {
@@ -51,10 +56,7 @@ export default {
       basketCounter: 0
     }
   },
-  components: {
-    UserBasketPopUp,
-    AuthPopUpWindow,
-  },
+
 
   mounted() {
     this.getAuthStatusFromLocalStorage()
@@ -157,18 +159,23 @@ export default {
     }
 
     &__basket {
+      position: relative;
+      right: 5px;
       width: 45px;
       height: 45px;
     }
 
     &__user-icon {
-      width: 45px;
-      height: 45px;
+      width: 50px;
+      height: 50px;
     }
 
     &__log-out-icon {
-      height: 40px;
-      width: 40px;
+      position: relative;
+      top: 2px;
+      right: 5px;
+      width: 45px;
+      height: 45px;
     }
 
     &__basket-counter {
@@ -176,7 +183,7 @@ export default {
       width: 25px;
       position: relative;
       top: 40px;
-      left: 535px;
+      left: 530px;
       text-align: center;
       line-height: 27px;
       font-size: 18px;
@@ -184,6 +191,7 @@ export default {
       font-weight: bolder;
       border-radius: 50%;
       background-color: #ff004e;
+      z-index: 10;
     }
   }
 </style>
