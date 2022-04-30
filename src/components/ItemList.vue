@@ -18,16 +18,19 @@
 
         <div class="products" >
           <ItemEmptyList id="empty-item"/>
-          <div class="product" v-for="product in products" :key="product">
-            <img class="product__image" :src="product.Img" alt="#">
-            <div class="product__all-info">
-              <span class="product__desc">
-                <h4 class="product__name">{{product.Product_name}}</h4>
-                <p class="product__product-type">{{product.Prod_type_name}}</p>
-              </span>
-              <p @click="showId" class="product__price">${{ product.Price }}</p>
-            </div>
-          </div>
+          <ul class="item-list">
+            <li v-for="product in products" :key="product">
+              <ItemCard
+              :id="product.Id"
+              :img="product.Img"
+              :price="product.Price"
+              :productTypeName="product.Prod_type_name"
+              :productName="product.Product_name"
+
+              @addProductToBasket="addProductToBasket"
+              />
+            </li>
+          </ul>
         </div>
       </div>
     </div>
@@ -37,11 +40,13 @@
 
 <script>
 import ItemEmptyList from "@/components/ItemEmptyList";
+import ItemCard from "@/components/ItemCard";
 
 export default {
   name: "ProductItem",
   components: {
     ItemEmptyList,
+    ItemCard
   },
   data() {
     return {
@@ -66,8 +71,30 @@ export default {
       this.products = this.$store.getters.getAllProducts
     },
 
-    showId () {
-      console.log(this.products.Id)
+    addProductToBasket (id, prodInfo) {
+      if (!localStorage.getItem("Basket")) {
+        localStorage.setItem("Basket", JSON.stringify([prodInfo]))
+        this.$emit("plusBasketCounter")
+        return
+      }
+
+      let storage = JSON.parse(localStorage.getItem("Basket"))
+
+
+
+      for (let i = 0; i < storage.length; i++) {
+          if (storage[i].id == id) {
+            storage[i].price = ((storage[i].price * 1) / (storage[i].quantity * 1))
+            storage[i].quantity = (storage[i].quantity * 1) + 1
+            storage[i].price *= storage[i].quantity
+            localStorage.setItem("Basket", JSON.stringify(storage))
+            return
+          }
+      }
+
+      this.$emit("plusBasketCounter")
+      storage.push(prodInfo)
+      localStorage.setItem("Basket", JSON.stringify(storage))
     }
   },
     watch: {
@@ -141,7 +168,6 @@ export default {
 
   .flex-positioner {
     display: flex;
-    justify-content: space-between;
   }
 
   .side-bar {
@@ -209,79 +235,15 @@ export default {
   }
 
   .products {
-    display: flex;
-    align-content: flex-start;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-    width: 900px;
+    max-width: 900px;
   }
 
-  .product {
+  .item-list {
     display: flex;
-    flex-direction: column;
-    margin: 0 0 20px 20px;
-    width: 280px;
-    height: 350px;
-    background-color: white;
-    border-radius: 7px;
-    box-shadow: 2px 5px 10px rgb(143, 138, 138);
-
-    &__image{
-      margin: 15px 0 5px 15px;
-      width: 250px;
-      height: 248px;
-      border-radius: 7px;
-      cursor: pointer;
-    }
-
-    &__all-info {
-      display: flex;
-      align-items: center;
-      max-height: 70px;
-      width: 265px;
-      justify-content: space-between;
-      cursor: default;
-    }
-
-    &__desc {
-      display: flex;
-      flex-direction: column;
-      height: 60px;
-      margin: 10px 0 0 15px;
-    }
-
-    &__name {
-      display: block;
-      margin: 0;
-      width: 150px;
-
-      font-family: Gilroy, 'serif';
-      font-weight: 700;
-    }
-
-    &__product-type {
-      margin: 0;
-      font-family: Gilroy, 'serif';
-    }
-
-    &__price {
-      display: inline-block;
-      min-height: 28px;
-      min-width: 25px;
-      padding: 5px 10px 5px 10px;
-      font-size: 25px;
-      border-radius: 7px;
-      background: #ff004e;
-
-      cursor: pointer;
-
-      &:hover {
-        background: url("../assets/small-shopping-cart-icon.png") no-repeat;
-        background-position: center;
-        background-color: #ff004e;
-        font-size: 0px;
-      }
-    }
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
   }
 
 </style>

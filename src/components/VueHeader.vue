@@ -1,7 +1,11 @@
 <template>
   <header class="header">
     <AuthPopUpWindow id="modal" @changeParentAuthStatus="changeParentAuthStatus"/>
-    <UserBasketPopUp v-if="isBasketPopUpVisible" @closeUserBasketPopup="closeUserBasketPopup"/>
+    <UserBasketPopUp
+        v-if="isBasketPopUpVisible"
+        @closeUserBasketPopup="closeUserBasketPopup"
+        @minusBasketCounter="basketCounter -= 1"
+    />
 
     <div class="container">
       <div class="header__box">
@@ -11,6 +15,7 @@
 
         <nav class="navbar">
           <ul>
+            <div class="navbar__basket-counter">{{ basketCounter }}</div>
             <li><router-link :to="{ path: `/`}">Home</router-link></li>
             <li><router-link :to="{ path: `/products`}">Products</router-link></li>
             <li><router-link :to="{ path: `/suppliers`}">Suppliers</router-link></li>
@@ -35,11 +40,15 @@ import UserBasketPopUp from "@/components/UserBasketPopUp";
 
 export default {
   name: "header",
-  props: ["statusUser"],
+  // props: ["statusUser"],
+
+  props: ["basketCounterProp"],
+
   data() {
     return {
       parentAuthStatus: false,
       isBasketPopUpVisible: false,
+      basketCounter: 0
     }
   },
   components: {
@@ -49,6 +58,7 @@ export default {
 
   mounted() {
     this.getAuthStatusFromLocalStorage()
+    this.getBasketCounter()
   },
 
   methods: {
@@ -77,6 +87,16 @@ export default {
       localStorage.removeItem("user_login_status")
       this.parentAuthStatus = false
     },
+
+    getBasketCounter () {
+      this.basketCounter = JSON.parse(localStorage.getItem("Basket")).length
+    }
+  },
+
+  watch: {
+    basketCounterProp () {
+      this.basketCounter += 1
+    }
   }
 }
 </script>
@@ -149,6 +169,21 @@ export default {
     &__log-out-icon {
       height: 40px;
       width: 40px;
+    }
+
+    &__basket-counter {
+      height: 25px;
+      width: 25px;
+      position: relative;
+      top: 40px;
+      left: 535px;
+      text-align: center;
+      line-height: 27px;
+      font-size: 18px;
+      font-family: Gilroy;
+      font-weight: bolder;
+      border-radius: 50%;
+      background-color: #ff004e;
     }
   }
 </style>

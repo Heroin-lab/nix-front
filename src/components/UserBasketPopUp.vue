@@ -126,6 +126,7 @@ export default {
       for (let i = 0; i < basketData.length; i++) {
         if (basketData[i].id == id) {
           basketData.splice(i, 1)
+          this.$emit("minusBasketCounter")
           break
         }
       }
