@@ -1,6 +1,6 @@
 <template>
-  <VueHeader/>
-  <item-list/>
+  <VueHeader :basketCounterProp="basketCounter" />
+  <item-list @plusBasketCounter="basketCounter += 1"/>
   <VueFooter/>
 </template>
 
@@ -16,6 +16,18 @@ export default {
     ItemList,
     VueHeader,
     VueFooter
+  },
+
+  data () {
+    return {
+      basketCounter: 0
+    }
+  },
+
+  methods: {
+    // plusBasketCounter () {
+    //   this.basketCounter++
+    // }
   }
 }
 </script>

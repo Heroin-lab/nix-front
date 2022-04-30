@@ -1,6 +1,11 @@
 <template>
   <header class="header">
     <AuthPopUpWindow id="modal" @changeParentAuthStatus="changeParentAuthStatus"/>
+    <UserBasketPopUp
+        v-if="isBasketPopUpVisible"
+        @closeUserBasketPopup="closeUserBasketPopup"
+        @minusBasketCounter="basketCounter -= 1"
+    />
 
     <div class="container">
       <div class="header__box">
@@ -10,13 +15,12 @@
 
         <nav class="navbar">
           <ul>
+            <div class="navbar__basket-counter">{{ basketCounter }}</div>
             <li><router-link :to="{ path: `/`}">Home</router-link></li>
             <li><router-link :to="{ path: `/products`}">Products</router-link></li>
             <li><router-link :to="{ path: `/suppliers`}">Suppliers</router-link></li>
             <li>
-              <router-link :to="{ path: `/basket`}">
-                <img class="navbar__basket" src="../assets/shopping-cart-icon.png" alt="#">
-              </router-link>
+              <img @click="isBasketPopUpVisible = true" class="navbar__basket" src="../assets/shopping-cart-icon.png" alt="#">
             </li>
             <li>
               <img v-if="!parentAuthStatus" @click="showAuthPopUp" class="navbar__user-icon" src="../assets/User_Icon.png" alt="#">
@@ -32,24 +36,36 @@
 <script>
 
 import AuthPopUpWindow from "@/components/AuthPopUpWindow";
+import UserBasketPopUp from "@/components/UserBasketPopUp";
 
 export default {
   name: "header",
-  props: ["statusUser"],
+  // props: ["statusUser"],
+
+  props: ["basketCounterProp"],
+
   data() {
     return {
-      parentAuthStatus: false
+      parentAuthStatus: false,
+      isBasketPopUpVisible: false,
+      basketCounter: 0
     }
   },
   components: {
+    UserBasketPopUp,
     AuthPopUpWindow,
   },
 
   mounted() {
     this.getAuthStatusFromLocalStorage()
+    this.getBasketCounter()
   },
 
   methods: {
+    closeUserBasketPopup () {
+      this.isBasketPopUpVisible = false
+    },
+
     showAuthPopUp () {
       document.getElementById("modal").style.display = "flex"
     },
@@ -65,10 +81,21 @@ export default {
     },
 
     logOutUser () {
+      localStorage.removeItem("user_id")
       localStorage.removeItem("access_token")
       localStorage.removeItem("refresh_token")
       localStorage.removeItem("user_login_status")
       this.parentAuthStatus = false
+    },
+
+    getBasketCounter () {
+      this.basketCounter = JSON.parse(localStorage.getItem("Basket")).length
+    }
+  },
+
+  watch: {
+    basketCounterProp () {
+      this.basketCounter += 1
     }
   }
 }
@@ -142,6 +169,21 @@ export default {
     &__log-out-icon {
       height: 40px;
       width: 40px;
+    }
+
+    &__basket-counter {
+      height: 25px;
+      width: 25px;
+      position: relative;
+      top: 40px;
+      left: 535px;
+      text-align: center;
+      line-height: 27px;
+      font-size: 18px;
+      font-family: Gilroy;
+      font-weight: bolder;
+      border-radius: 50%;
+      background-color: #ff004e;
     }
   }
 </style>

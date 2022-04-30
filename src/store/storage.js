@@ -2,6 +2,8 @@ import { createStore } from 'vuex'
 import productFunctions from "@/store/productFunctions";
 import authFunctions from "@/store/authFunctions";
 import suppliersFunctions from "@/store/suppliersFunctions";
+import orderFunctions from "@/store/orderFunctions";
+
 
 
 const store = createStore({
@@ -40,7 +42,6 @@ const store = createStore({
     mutations: {
         ADD_NEW_SUPPLIERS_INFO (state, payload) {
             state.suppliersStoredInfo = payload
-            console.log(payload)
         },
 
         DELETE_OLD_SUPPLIERS_INFO (state) {
@@ -105,6 +106,7 @@ const store = createStore({
                 const loginResp = await authFunctions.loginUser(payload.userEmail, payload.userPassword)
                 if (loginResp.status === 200) {
                     let readyJson = await loginResp.json()
+                    localStorage.setItem("user_id", readyJson.user_id)
                     localStorage.setItem("access_token", readyJson.access_token)
                     localStorage.setItem("refresh_token", readyJson.refresh_token)
                     localStorage.setItem("user_login_status", true)
@@ -126,8 +128,23 @@ const store = createStore({
         async getSuppliersByType ({commit}, payload) {
             try {
                 let suppliersResponse = await suppliersFunctions.getSuppliers(payload.supplierType)
-                console.log('check')
                 commit("ADD_NEW_SUPPLIERS_INFO", suppliersResponse)
+            } catch (error) {
+                console.log(error)
+            }
+        },
+
+        async makeNewOrderRequest (commit, payload) {
+            try {
+                let orderMakeResponse = await orderFunctions.makeNewOrder(payload)
+                if (orderMakeResponse.status === 200) {
+                    localStorage.removeItem("Basket")
+                    return 200
+                } else if (orderMakeResponse.status === 401) {
+                    return "You are not logged in!"
+                } else {
+                    return "Something goes wrong!"
+                }
             } catch (error) {
                 console.log(error)
             }
