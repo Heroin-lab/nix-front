@@ -181,7 +181,6 @@ export default {
     height: 443px;
     border-radius: 7px;
     box-shadow: 2px 5px 10px rgb(143, 138, 138);
-    mix-blend-mode: color-dodge;
 
     &__header {
       display: block;

@@ -90,7 +90,6 @@ export default {
       border-radius: 7px;
       z-index: 9;
       pointer-events: none;
-
     }
 
     &__image {

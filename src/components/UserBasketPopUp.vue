@@ -4,6 +4,7 @@
        v-if="!basketMode"
        @closeUserBasketPopup="closeBasketPopup"
        @goBackToBasketMode="goBackToBasketMode"
+       @setBasketCounterToDefault="setBasketCounterToDefault"
        :total="total"
    />
 
@@ -142,14 +143,12 @@ export default {
 
     closeBasketPopup () {
       this.$emit('closeUserBasketPopup')
+    },
+
+    setBasketCounterToDefault () {
+      this.$emit('setBasketCounterToDefault')
     }
   },
-
-//
-//   [{"id":"1","title":"Pizza Texas","type":"Pizza","price":"7","quantity":"1","image":"https://roll-club.kh.ua/wp-content/uploads/2021/04/4-mjasa-1.jpg.webp"},
-// {"id":"2","title":"Pizza Hawaii","type":"Pizza","price":"5","quantity":"1","image":"https://roll-club.kh.ua/wp-content/uploads/2021/04/4-mjasa-1.jpg.webp"},
-// {"id":"3","title":"Pizza Ocean","type":"Pizza","price":"12","quantity":"2","image":"https://roll-club.kh.ua/wp-content/uploads/2021/04/4-mjasa-1.jpg.webp"},
-// {"id":"4","title":"Pizza Texas","type":"Pizza","price":"7","quantity":"1","image":"https://roll-club.kh.ua/wp-content/uploads/2021/04/4-mjasa-1.jpg.webp"}]
 }
 </script>
 
@@ -172,6 +171,7 @@ export default {
       height: 700px;
       border-radius: 7px;
       cursor: default;
+      z-index: 1001;
 
 
       &_header {
