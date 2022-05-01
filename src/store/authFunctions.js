@@ -26,4 +26,18 @@ const registerUser = async (email, password) => {
     return await response.json()
 }
 
-export default { loginUser, registerUser }
+const refreshUserToken = async (refToken) => {
+    let response = await fetch("http://localhost:7777/update-token", {
+        mode: "cors",
+        method: "GET",
+        headers: {
+            "Accept":"*/*",
+            "Content-type":"application/json",
+            "Authorization": 'Bearer ' + refToken
+        },
+    })
+
+    return await response
+}
+
+export default { loginUser, registerUser, refreshUserToken }

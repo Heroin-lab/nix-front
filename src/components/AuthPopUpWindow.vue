@@ -167,8 +167,8 @@ export default {
   .auth-popup {
     display: none;
     justify-content: center;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     top: 0;
     position: absolute;
     background-color: rgba(0, 0, 0, 0.77);
@@ -178,7 +178,7 @@ export default {
       position: relative;
       font-size: 37px;
       text-align: center;
-      margin: 10px 355px 0 0;
+      margin: 10px -355px 0 0;
       color: #000418;
       transform: rotate(45deg);
       cursor: pointer;

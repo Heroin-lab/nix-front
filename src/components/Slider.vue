@@ -6,15 +6,15 @@
       <input type="radio" class="slides__buttons" name="radio-btn" id="radio3">
 
       <div class="slides__image first">
-        <img src="../assets/for-news-block2.png" alt="#" width="1200" height="628">
+        <img src="../assets/slider.jpg" alt="#" width="1200" height="628">
       </div>
 
       <div class="slides__image">
-        <img src="../assets/for-news-block2.png" alt="#" width="1200" height="628">
+        <img src="../assets/slider.jpg" alt="#" width="1200" height="628">
       </div>
 
       <div class="slides__image">
-        <img src="../assets/for-news-block2.png" alt="#" width="1200" height="628">
+        <img src="../assets/slider.jpg" alt="#" width="1200" height="628">
       </div>
 
       <div class="slides__nav-auto">

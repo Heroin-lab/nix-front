@@ -1,10 +1,17 @@
 <template>
   <header class="header">
-    <AuthPopUpWindow id="modal" @changeParentAuthStatus="changeParentAuthStatus"/>
+    <AuthPopUpWindow id="modal"
+                     @changeParentAuthStatus="changeParentAuthStatus"
+    />
     <UserBasketPopUp
         v-if="isBasketPopUpVisible"
         @closeUserBasketPopup="closeUserBasketPopup"
         @minusBasketCounter="basketCounter -= 1"
+        @setBasketCounterToDefault="getBasketCounter"
+    />
+    <UserOrdersList
+        v-if="isUserOrdersListVisible"
+        @closeUserOrderWindow="isUserOrdersListVisible = false"
     />
 
     <div class="container">
@@ -15,7 +22,12 @@
 
         <nav class="navbar">
           <ul>
-
+            <DropDownUserMenu
+                v-if="isDropDownMenuVisible"
+                @closeDropDownMenu="isDropDownMenuVisible = false"
+                @logOutUser="logOutUser"
+                @userOrdersListAction="isUserOrdersListVisible = !isUserOrdersListVisible"
+            />
             <div v-if="basketCounter !== 0" class="navbar__basket-counter">{{ basketCounter }}</div>
             <li><router-link :to="{ path: `/`}">Home</router-link></li>
             <li><router-link :to="{ path: `/products`}">Products</router-link></li>
@@ -25,7 +37,7 @@
             </li>
             <li>
               <img v-if="!parentAuthStatus" @click="showAuthPopUp" class="navbar__log-out-icon" src="../assets/loggin_icon.png" alt="#">
-              <img v-if="parentAuthStatus" @click="logOutUser" class="navbar__user-icon" src="../assets/User_Icon.png" alt="#">
+              <img v-if="parentAuthStatus" @click="isDropDownMenuVisible = !isDropDownMenuVisible" class="navbar__user-icon" src="../assets/User_Icon.png" alt="#">
             </li>
           </ul>
         </nav>
@@ -38,6 +50,8 @@
 
 import AuthPopUpWindow from "@/components/AuthPopUpWindow";
 import UserBasketPopUp from "@/components/UserBasketPopUp";
+import DropDownUserMenu from "@/components/DropDownUserMenu";
+import UserOrdersList from "@/components/UserOrdersList";
 
 export default {
   name: "header",
@@ -47,13 +61,18 @@ export default {
   components: {
     UserBasketPopUp,
     AuthPopUpWindow,
+    DropDownUserMenu,
+    UserOrdersList
   },
 
   data() {
     return {
       parentAuthStatus: false,
       isBasketPopUpVisible: false,
-      basketCounter: 0
+      isDropDownMenuVisible: false,
+      isUserOrdersListVisible: false,
+      basketCounter: 0,
+      refreshTimeOut: 0
     }
   },
 
@@ -74,6 +93,7 @@ export default {
 
     changeParentAuthStatus () {
       this.parentAuthStatus = this.$store.getters.getUserAuthStatus
+      this.tokenRefreshAction(true)
     },
 
     getAuthStatusFromLocalStorage () {
@@ -87,11 +107,28 @@ export default {
       localStorage.removeItem("access_token")
       localStorage.removeItem("refresh_token")
       localStorage.removeItem("user_login_status")
+      this.tokenRefreshAction(false)
       this.parentAuthStatus = false
+      this.isDropDownMenuVisible = false
     },
 
     getBasketCounter () {
-      this.basketCounter = JSON.parse(localStorage.getItem("Basket")).length
+      if (!localStorage.getItem("Basket")) {
+        localStorage.setItem("Basket", JSON.stringify([]))
+        this.basketCounter = 0
+      } else {
+        this.basketCounter = JSON.parse(localStorage.getItem("Basket")).length
+      }
+    },
+
+    tokenRefreshAction (mode) {
+      if (mode === false) {
+        clearInterval(this.refreshTimeOut)
+      } else if (mode === true) {
+        this.refreshTimeOut = setInterval(() => {
+          this.$store.dispatch("refreshAccessToken")
+        }, 540000)
+      }
     }
   },
 
@@ -133,8 +170,8 @@ export default {
 
       & li {
         display: inline;
-        height: 50px;
-        padding: 10px 10px 15px 10px;
+        height: 55px;
+        padding: 15px 10px 15px 10px;
 
 
         &:not(:last-child) {

@@ -172,19 +172,22 @@ export default {
 
       if (status === 200) {
         this.closeBasketPopup()
+        this.setBasketCounterToDefault()
       } else {
         this.alertMaker(status)
       }
-
     },
 
     getItemsFromLocalStorage () {
-      let basketItems = JSON.parse(localStorage.getItem("Basket"))
-      this.basketContainer = basketItems
+      this.basketContainer = JSON.parse(localStorage.getItem("Basket"))
     },
 
     closeBasketPopup () {
       this.$emit('closeUserBasketPopup')
+    },
+
+    setBasketCounterToDefault () {
+      this.$emit('setBasketCounterToDefault')
     },
 
     goBackToBasket () {

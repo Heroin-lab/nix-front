@@ -14,7 +14,8 @@ const store = createStore({
         preparedProductArr: [],
         userAuthStatus: false,
         cardSelectStatus: false,
-        suppliersStoredInfo: []
+        suppliersStoredInfo: [],
+        userPreviousOrders: []
     },
     getters: {
         getAllProducts (state) {
@@ -37,9 +38,17 @@ const store = createStore({
 
         getSuppliersInfo (state) {
             return JSON.parse(JSON.stringify(state.suppliersStoredInfo))
+        },
+
+        getUserPreviousOrders (state) {
+            return JSON.parse(JSON.stringify(state.userPreviousOrders))
         }
     },
     mutations: {
+        ADD_USER_PREVIOUS_ORDERS (state, payload) {
+          state.userPreviousOrders = payload
+        },
+
         ADD_NEW_SUPPLIERS_INFO (state, payload) {
             state.suppliersStoredInfo = payload
         },
@@ -128,7 +137,7 @@ const store = createStore({
         async getSuppliersByType ({commit}, payload) {
             try {
                 let suppliersResponse = await suppliersFunctions.getSuppliers(payload.supplierType)
-                commit("ADD_NEW_SUPPLIERS_INFO", suppliersResponse)
+                await commit("ADD_NEW_SUPPLIERS_INFO", suppliersResponse)
             } catch (error) {
                 console.log(error)
             }
@@ -148,7 +157,32 @@ const store = createStore({
             } catch (error) {
                 console.log(error)
             }
+        },
+
+        async uploadUserOrders ({commit}, payload) {
+            try {
+                let uploadOrdersResponse = await orderFunctions.getAllUserOrders(payload)
+                if (uploadOrdersResponse.status === 200) {
+                   commit("ADD_USER_PREVIOUS_ORDERS", await uploadOrdersResponse.json())
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        },
+
+        async refreshAccessToken () {
+            try {
+                let refreshAccessTokenResponse = await authFunctions.refreshUserToken(localStorage.getItem("refresh_token"))
+                if (refreshAccessTokenResponse.status === 200) {
+                    let newTokens = await refreshAccessTokenResponse.json()
+                    localStorage.setItem("access_token", newTokens.access_token)
+                    localStorage.setItem("refresh_token", newTokens.refresh_token)
+                }
+            } catch (error) {
+                console.log(error)
+            }
         }
+
     }
 })
 
