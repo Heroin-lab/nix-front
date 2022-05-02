@@ -103,13 +103,13 @@ export default {
       &:hover {
         transition: 0.7s;
         opacity: 50%;
-        z-index: 1;
+        z-index: 2;
         cursor: pointer;
       }
     }
 
     &__exit-image {
-      opacity: 50%;
+      opacity: 51%;
       z-index: 1;
     }
 
