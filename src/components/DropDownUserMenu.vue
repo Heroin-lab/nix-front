@@ -50,6 +50,7 @@ export default {
     border-radius: 7px;
     background-color: #ffffff;
     box-shadow: 0px 2px 5px rgb(143, 138, 138);
+    z-index: 2000;
     overflow: hidden;
 
     &__list {
