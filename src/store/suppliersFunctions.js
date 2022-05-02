@@ -1,5 +1,5 @@
 const getSuppliers = async (supplierType) => {
-    let response = await fetch("http://localhost:7777/get-suppliers-by-category",{
+    let response = await fetch("http://45.148.29.94:7777/get-suppliers-by-category",{
         mode: "cors",
         method: "POST",
         headers: {

@@ -1,5 +1,5 @@
 const loginUser = async (email, password) => {
-    let response = await fetch("http://localhost:7777/login", {
+    let response = await fetch("http://45.148.29.94:7777/login", {
         mode: "cors",
         method: "POST",
         headers: {
@@ -13,7 +13,7 @@ const loginUser = async (email, password) => {
 }
 
 const registerUser = async (email, password) => {
-    let response = await fetch("http://localhost:7777/register", {
+    let response = await fetch("http://45.148.29.94:7777/register", {
         mode: "cors",
         method: "POST",
         headers: {
@@ -27,7 +27,7 @@ const registerUser = async (email, password) => {
 }
 
 const refreshUserToken = async (refToken) => {
-    let response = await fetch("http://localhost:7777/update-token", {
+    let response = await fetch("http://45.148.29.94:7777/update-token", {
         mode: "cors",
         method: "GET",
         headers: {

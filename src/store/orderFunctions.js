@@ -1,5 +1,5 @@
 const makeNewOrder = async (orderData) => {
-    let response = await fetch("http://localhost:7777/add-order", {
+    let response = await fetch("http://45.148.29.94:7777/add-order", {
         mode: "cors",
         method: "POST",
         headers: {
@@ -14,7 +14,7 @@ const makeNewOrder = async (orderData) => {
 }
 
 const getAllUserOrders = async (user_id) => {
-    let response = await fetch("http://localhost:7777/get-all-user-orders", {
+    let response = await fetch("http://45.148.29.94:7777/get-all-user-orders", {
         mode: "cors",
         method: "POST",
         headers: {
